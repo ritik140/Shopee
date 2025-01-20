@@ -14,7 +14,7 @@ const itemsSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    image: {
+    product_image_path: {
       type: String, //Cloudnary Url
       required: true,
     },
