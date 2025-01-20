@@ -13,6 +13,11 @@ router.route("/add-item").post(
     },
   ]),
 
+  (req, res, next) => {
+    req.role = 'admin';  // Add 'role' to the request object
+    next();  // Proceed to the next middleware (verifyJwt)
+  },
+
   verifyJwt,
   addItem
 );
