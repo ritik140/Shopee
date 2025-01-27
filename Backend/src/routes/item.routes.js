@@ -1,7 +1,11 @@
 import { Router } from "express";
-import { verifyJwt } from "../Middleware/auth.middleware.js";
+import { verifyAdmin, verifyJwt } from "../Middleware/auth.middleware.js";
 import { upload } from "../Middleware/multer.middleware.js";
-import { addItem } from "../controllers/item.controller.js";
+import {
+  addItem,
+  updateItem,
+  deleteItem,
+} from "../controllers/item.controller.js";
 
 const router = Router();
 
@@ -13,15 +17,13 @@ router.route("/add-item").post(
     },
   ]),
 
-  (req, res, next) => {
-    req.role = 'admin';  // Add 'role' to the request object
-    next();  // Proceed to the next middleware (verifyJwt)
-  },
-
   verifyJwt,
+  verifyAdmin,
   addItem
 );
-// router.route("/update-item").patch(verifyJwt, updateItem);
-// router.route("/delete-item").delete(verifyJwt, deleteItem);
+router
+  .route("/:itemId")
+  .patch(verifyJwt, verifyAdmin, upload.single("image"), updateItem)
+  .delete(verifyJwt, verifyAdmin, deleteItem);
 
 export default router;

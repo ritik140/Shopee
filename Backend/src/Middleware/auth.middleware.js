@@ -5,7 +5,6 @@ import { User } from "../models/User.model.js";
 
 const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
-    const role = req.role;
     const token =
       req.cookies?.AccessToken ||
       req.header("Authorization")?.replace("Bearer", "").trim();
@@ -23,17 +22,29 @@ const verifyJwt = asyncHandler(async (req, res, next) => {
     if (!user) {
       throw new ApiError(401, "Unauthorized access");
     }
-
-    if (role && user.role !== role) {
-      throw new ApiError(401, `Only ${role} can access this`);
-    }
-
     req.user = user;
     next();
   } catch (error) {
     console.log("----------------Error------------------", error);
-    throw new ApiError(400, "Something went wrong");
+    throw new ApiError(400, `Auth Middleware: ${error}`);
   }
 });
 
-export { verifyJwt };
+const verifyAdmin = asyncHandler(async (req, res, next) => {
+  // console.log(req);
+  try {
+    const userRole =req.user?.role;
+    console.log(userRole);
+  
+    if (userRole === "admin") {
+      next();
+    }
+    else{
+        throw new ApiError(401, "Ony Admin can access");
+    }
+  } catch (error) {
+    throw new ApiError(400, `VerfiyAdmin Middleware: ${error}`);
+  }
+});
+
+export { verifyJwt, verifyAdmin };
