@@ -41,6 +41,22 @@ const addItem = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, itemUpload, "Item Uploaded Successfully"));
 });
 
+const getItem=asyncHandler(async(req,res)=>{
+  const {itemId}=req.params;
+  if (!itemId) {
+    throw new ApiError(400, "ItemId is not Correct");
+  }
+  const item=await Items.findById(itemId);
+  console.log(item);
+
+  if(!item){
+    throw new ApiError(400,"Item is not Present");
+  }
+  return res
+  .status(200)
+  .json(new ApiResponse(200, item, "Get Item successfully"));
+})
+
 const updateItem = asyncHandler(async (req, res) => {
   const { itemId } = req.params;
   if (!itemId) {
@@ -95,4 +111,4 @@ const deleteItem = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "The Item is deleted Successfully!"));
 });
 
-export { addItem, updateItem, deleteItem };
+export { addItem, updateItem, deleteItem, getItem };
