@@ -41,21 +41,48 @@ const addItem = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, itemUpload, "Item Uploaded Successfully"));
 });
 
-const getItem=asyncHandler(async(req,res)=>{
-  const {itemId}=req.params;
+const getItem = asyncHandler(async (req, res) => {
+  const { itemId } = req.params;
   if (!itemId) {
     throw new ApiError(400, "ItemId is not Correct");
   }
-  const item=await Items.findById(itemId);
+  const item = await Items.findById(itemId);
   console.log(item);
 
-  if(!item){
-    throw new ApiError(400,"Item is not Present");
+  if (!item) {
+    throw new ApiError(400, "Item is not Present");
   }
   return res
-  .status(200)
-  .json(new ApiResponse(200, item, "Get Item successfully"));
-})
+    .status(200)
+    .json(new ApiResponse(200, item, "Get Item successfully"));
+});
+
+const getAllItem = asyncHandler(async (req, res) => {
+  try {
+    const items = await Items.find({});
+    if (!items) {
+      throw new ApiError(400, "Items are not fetch successfully");
+    }
+    return res
+      .status(200)
+      .json(new ApiResponse(200, items, "Fetch successfully"));
+  } catch (error) {
+    throw new ApiError("Problem in getAllItem", error);
+  }
+});
+const getSpecificCategoryItem = asyncHandler(async (req, res) => {
+  const { itemCategory } = req.params;
+  if (!itemCategory) {
+    throw new ApiError(400, "Please give correct category");
+  }
+  const items = await Items.find({ category: itemCategory });
+  if (!items) {
+    throw new ApiError(400, "Items are not fetch successfully");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, items, "Fetch successfully"));
+});
 
 const updateItem = asyncHandler(async (req, res) => {
   const { itemId } = req.params;
@@ -111,4 +138,11 @@ const deleteItem = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "The Item is deleted Successfully!"));
 });
 
-export { addItem, updateItem, deleteItem, getItem };
+export {
+  addItem,
+  updateItem,
+  deleteItem,
+  getItem,
+  getAllItem,
+  getSpecificCategoryItem,
+};

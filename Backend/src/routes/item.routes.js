@@ -6,6 +6,8 @@ import {
   updateItem,
   deleteItem,
   getItem,
+  getAllItem,
+  getSpecificCategoryItem,
 } from "../controllers/item.controller.js";
 
 const router = Router();
@@ -22,6 +24,10 @@ router.route("/add-item").post(
   verifyAdmin,
   addItem
 );
+router.route("/all-items").get(verifyJwt, verifyAdmin, getAllItem);
+router
+  .route("/category/:itemCategory")
+  .get(verifyJwt, verifyAdmin, getSpecificCategoryItem);
 router
   .route("/:itemId")
   .patch(verifyJwt, verifyAdmin, upload.single("image"), updateItem)

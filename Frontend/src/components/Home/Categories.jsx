@@ -7,46 +7,46 @@ import ViewAll from "./ViewAll";
 import axios from "axios";
 
 const Categories = ({ isHome = false }) => {
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    axios
-      .get("/api/collection")
-      .then((response) => {
-        setCategories(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  // const categories = [
-  //   {
-  //     label: "Jacket",
-  //     icon: <FontAwesomeIcon icon={faShirt} size="6x" className="w-full" />,
-  //     backgroundColor: "#e0e7ff",
-  //     link: "/categories/jacket",
-  //   },
-  //   {
-  //     label: "Shirt",
-  //     icon: <FontAwesomeIcon icon={faShirt} size="6x" className="w-full" />,
-  //     backgroundColor: "#f3f4f6",
-  //     link: "/categories/shirt",
-  //   },
-  //   {
-  //     label: "Pants",
-  //     icon: <FontAwesomeIcon icon={faShirt} size="6x" className="w-full" />,
-  //     backgroundColor: "#e0f7fa",
-  //     link: "/categories/pants",
-  //   },
-  //   {
-  //     label: "Shoes",
-  //     icon: <FontAwesomeIcon icon={faShirt} size="6x" className="w-full" />,
-  //     backgroundColor: "#e0f7fa",
-  //     link: "/categories/shoes",
-  //   },
+  // const [categories, setCategories] = useState([]);
+  // useEffect(() => {
+  //   axios
+  //     .get("/api/collection")
+  //     .then((response) => {
+  //       setCategories(response.data);
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+  const categories = [
+    {
+      label: "Jacket",
+      icon: <FontAwesomeIcon icon={faShirt} size="6x" className="w-full" />,
+      backgroundColor: "#e0e7ff",
+      link: "/categories/jacket",
+    },
+    {
+      label: "Shirt",
+      icon: <FontAwesomeIcon icon={faShirt} size="6x" className="w-full" />,
+      backgroundColor: "#f3f4f6",
+      link: "/categories/shirt",
+    },
+    {
+      label: "Pants",
+      icon: <FontAwesomeIcon icon={faShirt} size="6x" className="w-full" />,
+      backgroundColor: "#e0f7fa",
+      link: "/categories/pants",
+    },
+    {
+      label: "Shoes",
+      icon: <FontAwesomeIcon icon={faShirt} size="6x" className="w-full" />,
+      backgroundColor: "#e0f7fa",
+      link: "/categories/shoes",
+    },
 
-  //   // Add more categories here
-  // ];
+    // Add more categories here
+  ];
   if (!isHome) {
     return (
       <div className="flex-1 self-center md:self-stretch ">
