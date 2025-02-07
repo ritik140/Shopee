@@ -24,7 +24,7 @@ router.route("/add-item").post(
   verifyAdmin,
   addItem
 );
-router.route("/all-items").get(verifyJwt, verifyAdmin, getAllItem);
+router.route("/all-items").get(getAllItem);
 router
   .route("/category/:itemCategory")
   .get(verifyJwt, verifyAdmin, getSpecificCategoryItem);

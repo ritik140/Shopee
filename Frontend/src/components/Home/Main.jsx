@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import axios from "axios";
 
 const Main = () => {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    axios
+      .get("/api/v1/items/all-items", items)
+      .then((response) => {
+        setItems(response.data.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -54,46 +68,20 @@ const Main = () => {
       <div className="md:w-1/2 mt-6 md:mt-2">
         <Slider {...settings}>
           {/* Carousel items with different image sizes */}
-          <div className="p-4">
-            <div className="relative h-64 w-full">
-              <img
-                src="https://via.placeholder.com/300x400"
-                alt="Product 1"
-                className="w-full h-full object-cover"
-              />
+          {items.map((item) => (
+            <div className="p-4">
+              <div className="relative h-64 w-full">
+                <img
+                  src={item.product_image_path}
+                  alt="Product 1"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-center mt-2 text-gray-800">
+                Up to {Math.floor(Math.random() * (90 - 50) + 50)}% Off
+              </p>
             </div>
-            <p className="text-center mt-2 text-gray-800">Up to 70% Off</p>
-          </div>
-          <div className="p-4">
-            <div className="relative h-64 w-full">
-              <img
-                src="https://via.placeholder.com/300x300"
-                alt="Product 2"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <p className="text-center mt-2 text-gray-800">Up to 50% Off</p>
-          </div>
-          <div className="p-4">
-            <div className="relative h-64 w-full">
-              <img
-                src="https://via.placeholder.com/300x500"
-                alt="Product 3"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <p className="text-center mt-2 text-gray-800">Up to 80% Off</p>
-          </div>
-          <div className="p-4">
-            <div className="relative h-64 w-full">
-              <img
-                src="https://via.placeholder.com/300x250"
-                alt="Product 4"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <p className="text-center mt-2 text-gray-800">Up to 60% Off</p>
-          </div>
+          ))}
         </Slider>
       </div>
     </div>
